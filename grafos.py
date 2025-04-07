@@ -105,3 +105,77 @@ def salvar_lista_compactada(grafo, caminho_saida):
                 linha += f" -> {destinatario} [peso: {peso}]"
             f.write(linha + "\n")
 
+
+def vertices_ate_distancia(grafo, origem, distancia_max):
+    distancias = {origem: 0}
+    visitados = set()
+    fila = [origem]
+    resultado = []
+
+    while fila:
+        # Encontrar vértice com menor distância conhecida
+        atual = min(fila, key=lambda v: distancias[v])
+        fila.remove(atual)
+
+        if distancias[atual] > distancia_max:
+            continue
+
+        visitados.add(atual)
+        resultado.append(atual)
+
+        for vizinho, peso in grafo.get(atual, {}).items():
+            nova_distancia = distancias[atual] + peso
+            if (vizinho not in distancias or nova_distancia < distancias[vizinho]) and nova_distancia <= distancia_max:
+                distancias[vizinho] = nova_distancia
+                if vizinho not in visitados and vizinho not in fila:
+                    fila.append(vizinho)
+
+    return resultado
+           
+
+def dijkstra_com_caminho(grafo, origem):
+    distancias = {origem: 0}
+    anteriores = {}
+    fila = [origem]
+
+    while fila:
+        atual = min(fila, key=lambda v: distancias[v])
+        fila.remove(atual)
+
+        for vizinho, peso in grafo.get(atual, {}).items():
+            nova_dist = distancias[atual] + peso
+            if vizinho not in distancias or nova_dist < distancias[vizinho]:
+                distancias[vizinho] = nova_dist
+                anteriores[vizinho] = atual
+                if vizinho not in fila:
+                    fila.append(vizinho)
+
+    return distancias, anteriores
+
+def reconstruir_caminho(anteriores, origem, destino):
+    caminho = [destino]
+    while destino in anteriores:
+        destino = anteriores[destino]
+        caminho.insert(0, destino)
+    if caminho[0] == origem:
+        return caminho
+    return []  # caso não seja alcançável
+
+def calcular_diametro(grafo):
+    maior_distancia = -1
+    melhor_caminho = []
+    origem_final = ""
+    destino_final = ""
+
+    for origem in grafo:
+        distancias, anteriores = dijkstra_com_caminho(grafo, origem)
+        for destino in distancias:
+            if origem != destino and distancias[destino] > maior_distancia:
+                maior_distancia = distancias[destino]
+                origem_final = origem
+                destino_final = destino
+                melhor_caminho = reconstruir_caminho(anteriores, origem, destino)
+
+    return maior_distancia, melhor_caminho
+            
+

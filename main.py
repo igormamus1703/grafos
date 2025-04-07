@@ -7,6 +7,8 @@ from grafos import (
     graus_saida_entrada,
     grafo_euleriano,
     salvar_lista_compactada,
+    vertices_ate_distancia,
+    calcular_diametro
 )
 
 def main():
@@ -41,6 +43,22 @@ def main():
     print("Euleriano?", euleriano)
     if not euleriano:
         print(msg)
+        
+    # Etapa 6: Calcular diâmetro   
+    diametro, caminho = calcular_diametro(grafo)
+    print(f"Diâmetro do grafo: {diametro}")
+    print("Caminho correspondente:")
+    for v in caminho:
+        print(" ->", v)
+        
+    # Etapa 7: Verificar vértices até distância
+    origem = str(input("Digite o vértice de origem: "))
+    limite = int(input("Digite o limite de distância: "))
+    alcance = vertices_ate_distancia(grafo, origem, limite)
+    print(f"Vértices até distância {limite} de {origem}:")
+    for vertice in alcance:
+        print(" -", vertice)
+     
 
 if __name__ == "__main__":
     main()
