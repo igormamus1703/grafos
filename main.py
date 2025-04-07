@@ -5,7 +5,8 @@ from grafos import (
     ordem_tamanho,
     vertices_isolados,
     graus_saida_entrada,
-    grafo_euleriano
+    grafo_euleriano,
+    salvar_lista_compactada,
 )
 
 def main():
@@ -21,6 +22,8 @@ def main():
     # Etapa 3: Salvar lista de adjacência
     salvar_lista_adjacencia(grafo, "grafo_adjacencia.txt")
     print("Lista de adjacência salva.")
+    salvar_lista_compactada(grafo, "grafo_compactado.txt")
+    print("Lista de adjacência compactada salva.")
 
     # Etapa 4: Estatísticas
     ordem, tamanho = ordem_tamanho(grafo)

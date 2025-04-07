@@ -97,3 +97,11 @@ def grafo_euleriano(grafo):
             return False, f"Vértice {v} tem entrada={entrada[v]} e saída={saida[v]}"
     return True, "O grafo é Euleriano."
 
+def salvar_lista_compactada(grafo, caminho_saida):
+    with open(caminho_saida, "w") as f:
+        for remetente in grafo:
+            linha = f"{remetente.upper()}"
+            for destinatario, peso in grafo[remetente].items():
+                linha += f" -> {destinatario} [peso: {peso}]"
+            f.write(linha + "\n")
+
