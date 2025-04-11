@@ -35,14 +35,12 @@ def main():
     print(f"Vértices isolados: {len(isolados)}")
 
     top_saida, top_entrada = graus_saida_entrada(grafo)
-    print("Top 20 grau de saída:", top_saida[:5])
+    print("Top 20 grau de saída:", top_saida[:20])
     print("Top 20 grau de entrada:", top_entrada[:5])
 
     # Etapa 5: Verificar se é Euleriano
-    euleriano, msg = grafo_euleriano(grafo)
-    print("Euleriano?", euleriano)
-    if not euleriano:
-        print(msg)
+    caminho_saida_euleriano = "resultado_euleriano.txt"
+    grafo_euleriano(grafo, caminho_saida_euleriano)
         
     # Etapa 6: Calcular diâmetro   
     diametro, caminho = calcular_diametro(grafo)
